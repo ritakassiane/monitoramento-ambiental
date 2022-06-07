@@ -12,7 +12,6 @@ client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'aluno'
 password = 'aluno*123'
 
-
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -31,7 +30,7 @@ def publish(client):
     msg_count = 0
     while True:
         time.sleep(5)
-        msg = f"messages: {msg_count}"
+        msg = f"messages:{msg_count}"
         result = client.publish(topic, msg)
         # result: [0, 1]
         status = result[0]
