@@ -11,12 +11,12 @@
           
           <div class="weather f">
             <div>
-              <strong>26°<sup>C</sup></strong>
+              <strong>{{ temperatura }}°<sup>C</sup></strong>
               <p>Temperatura  </p>
             </div>
             <div>
-              <strong>48.2%</strong>
-              <p>Humidade</p>
+              <strong>{{ umidade }}%</strong>
+              <p>Umidade</p>
             </div>
             <div>
               <strong>52.99</strong>
@@ -35,10 +35,32 @@
 </template>
 <script>
 import Sensors from './Sensors'
+import api from '../services/api';
+
 export default {
     name:'Main',
     components:{
         Sensors
+    },
+    data(){
+      return{
+        temperatura: "-",
+        umidade: "-"
+      }
+    },
+    mounted(){
+      api.get('/temp').then(response => {
+        const array = response.data
+        const lastElement = (array.length)-1
+        this.temperatura = response.data[lastElement].temperatura
+        console.log(this.temperatura)
+      }),
+      api.get('/umid').then(response_umid => {
+        const umid = response_umid.data
+        const lastElement = (umid.length)-1
+        this.umidade = umid[lastElement].umidade
+        console.log(this.umidade)
+      })
     }
 }
 </script>

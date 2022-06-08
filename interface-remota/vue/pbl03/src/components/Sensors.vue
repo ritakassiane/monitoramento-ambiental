@@ -1,41 +1,41 @@
 <template>
-    <div class="appliances">
-        <div class="appliance">
+    <div class="sensors">
+        <div class="sensor">
             <input type="checkbox" name="a" id="a">
             <label for="a">
             <i class="l"></i>
             <strong>Luz</strong>
-            <span data-o="medindo..." data-c="enviar"></span>
+            <span data-o="medindo..." data-c="histórico"></span>
             <small></small>
             </label>
         </div>
         
-        <div class="appliance">
+        <div class="sensor">
             <input type="checkbox" name="a" id="b">
             <label for="b">
             <i class="r"></i>
             <strong>Temper</strong>
-            <span data-o="medindo..." data-c="enviar"></span>
+            <span data-o="medindo..." data-c="histórico"></span>
             <small></small>
             </label>
         </div>
         
-        <div class="appliance">
+        <div class="sensor">
             <input type="checkbox" name="a" id="c">
             <label for="c">
             <i class="a"></i>
             <strong>ATM</strong>
-            <span data-o="medindo..." data-c="enviar"></span>
+            <span data-o="medindo..." data-c="histórico"></span>
             <small></small>
             </label>
         </div>
         
-        <div class="appliance">
+        <div class="sensor">
             <input type="checkbox" name="a" id="d">
             <label for="d">
             <i class="f"></i>
             <strong>Umidade</strong>
-            <span data-o="medindo..." data-c="enviar"></span>
+            <span data-o="medindo..." data-c="histórico"></span>
             <small></small>
             </label>
         </div>
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 <style scoped>
-    .appliances {
+    .sensors {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -55,34 +55,34 @@ export default {
     margin: 30px auto;
     }
   
-  .appliance {
+  .sensor {
     position: relative;
     height: 170px;
     width: 45%;
     margin: 10px 0;
   }
-  .appliance span {
+  .sensor span {
     position: relative;
   }
-  .appliance span::before, .appliance span::after {
+  .sensor span::before, .sensor span::after {
     text-transform: uppercase;
     font-size: 12px;
     position: absolute;
     left: 0;
   }
-  .appliance span::before {
+  .sensor span::before {
     content: attr(data-o);
     opacity: 0;
   }
-  .appliance span::after {
+  .sensor span::after {
     content: attr(data-c);
   }
-  .appliance strong {
+  .sensor strong {
     margin: 70px 0 10px;
     display: block;
     font-size: 18px;
   }
-  .appliance label {
+  .sensor label {
     position: absolute;
     width: 74%;
     height: 71%;
@@ -91,7 +91,7 @@ export default {
     box-shadow: 1px 0 10px 10px rgba(0, 0, 0, 0.03);
     border-radius: 30px;
   }
-  .appliance label::before {
+  .sensor label::before {
     border-radius: 30px;
     position: absolute;
     top: 0;
@@ -102,11 +102,11 @@ export default {
     background-color: white;
     content: "";
   }
-  .appliance label * {
+  .sensor label * {
     position: relative;
     transition: 200ms;
   }
-  .appliance label small {
+  .sensor label small {
     position: absolute;
     width: 10px;
     height: 10px;
@@ -116,10 +116,10 @@ export default {
     right: 20px;
     transition: 200ms;
   }
-  .appliance label small::after, .appliance label small::before {
+  .sensor label small::after, .sensor label small::before {
     content: "";
   }
-  .appliance label .f {
+  .sensor label .f {
     width: 16px;
     height: 22px;
     background-color: #3976f6;
@@ -132,7 +132,7 @@ export default {
     background-position: 0 0, 3px 0;
     background-repeat: no-repeat;
   }
-  .appliance label .a {
+  .sensor label .a {
     width: 23px;
     height: 10px;
     background-color: #3976f6;
@@ -145,7 +145,7 @@ export default {
     background-position: 3px -2px;
     background-repeat: no-repeat;
   }
-  .appliance label .a::after, .appliance label .a::before {
+  .sensor label .a::after, .sensor label .a::before {
     content: "";
     position: absolute;
     width: 8px;
@@ -158,13 +158,13 @@ export default {
     transform: rotate(72deg);
     display: block;
   }
-  .appliance label .a::after {
+  .sensor label .a::after {
     left: 14px;
   }
-  .appliance label .a::before {
+  .sensor label .a::before {
     left: 6px;
   }
-  .appliance label .r {
+  .sensor label .r {
     width: 23px;
     height: 9px;
     background-color: #3976f6;
@@ -173,7 +173,7 @@ export default {
     border-radius: 3px;
     top: 30px;
   }
-  .appliance label .r::after, .appliance label .r::before {
+  .sensor label .r::after, .sensor label .r::before {
     content: "";
     border-width: 2px;
     border-style: solid;
@@ -182,19 +182,19 @@ export default {
     position: absolute;
     display: block;
   }
-  .appliance label .r::after {
+  .sensor label .r::after {
     width: 22px;
     height: 20px;
     top: -11px;
     left: -2px;
   }
-  .appliance label .r::before {
+  .sensor label .r::before {
     width: 16px;
     height: 20px;
     top: -6px;
     left: 1px;
   }
-  .appliance label .l {
+  .sensor label .l {
     width: 22px;
     height: 13px;
     background-color: #3976f6;
@@ -203,7 +203,7 @@ export default {
     border-radius: 22px 22px 0 0;
     top: 30px;
   }
-  .appliance label .l::before {
+  .sensor label .l::before {
     content: "";
     width: 3px;
     height: 8px;
@@ -214,7 +214,7 @@ export default {
     border-radius: 3px;
     left: 9px;
   }
-  .appliance label .l::after {
+  .sensor label .l::after {
     content: "";
     position: absolute;
     width: 10px;
@@ -224,45 +224,45 @@ export default {
     top: 14px;
     left: 6px;
   }
-  .appliance input {
+  .sensor input {
     display: none;
   }
-  .appliance input:checked + label::before {
+  .sensor input:checked + label::before {
     content: "";
     background: linear-gradient(to bottom, #59a2fb 0%, #3976f6 100%);
   }
-  .appliance input:checked + label * {
+  .sensor input:checked + label * {
     color: white;
   }
-  .appliance input:checked + label i {
+  .sensor input:checked + label i {
     background-color: white;
   }
-  .appliance input:checked + label i::before, .appliance input:checked + label i::after {
+  .sensor input:checked + label i::before, .sensor input:checked + label i::after {
     background-color: rgba(255, 255, 255, 0.61);
   }
-  .appliance input:checked + label i.f {
+  .sensor input:checked + label i.f {
     background-image: linear-gradient(0deg, rgba(89, 162, 251, 0.61) 2px, transparent 2px), linear-gradient(0deg, rgba(89, 162, 251, 0.61) 12px, transparent 0);
   }
-  .appliance input:checked + label i.a {
+  .sensor input:checked + label i.a {
     background-image: linear-gradient(0deg, rgba(89, 162, 251, 0.61) 2px, transparent 2px);
   }
-  .appliance input:checked + label i.a::before, .appliance input:checked + label i.a::after {
+  .sensor input:checked + label i.a::before, .sensor input:checked + label i.a::after {
     background-color: rgba(255, 255, 255, 0);
     border-color: transparent transparent rgba(255, 255, 255, 0.61);
   }
-  .appliance input:checked + label i.r {
+  .sensor input:checked + label i.r {
     background-color: white;
   }
-  .appliance input:checked + label i.r::before, .appliance input:checked + label i.r::after {
+  .sensor input:checked + label i.r::before, .sensor input:checked + label i.r::after {
     background-color: rgba(255, 255, 255, 0);
     border-color: rgba(255, 255, 255, 0.61) transparent transparent;
   }
-  .appliance input:checked + label small {
+  .sensor input:checked + label small {
     width: 30px;
     height: 15px;
     background-color: #3976f6;
   }
-  .appliance input:checked + label small::before {
+  .sensor input:checked + label small::before {
     width: 13px;
     height: 13px;
     background-color: white;
@@ -271,10 +271,10 @@ export default {
     top: 1px;
     position: absolute;
   }
-  .appliance input:checked + label span::before {
+  .sensor input:checked + label span::before {
     opacity: 1;
   }
-  .appliance input:checked + label span::after {
+  .sensor input:checked + label span::after {
     opacity: 0;
   }
   
