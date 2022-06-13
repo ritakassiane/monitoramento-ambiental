@@ -8,8 +8,11 @@ from paho.mqtt import client as mqtt_client
 url = 'http://127.0.0.1:5000/enviar-temperatura'
 broker = '10.0.0.101'
 port = 1883
-topic = "mqtt/umidade"
-topic2 = "mqtt/temp"
+topic0 = "mqtt/umidade"
+topic1 = "mqtt/temp"
+topic2 = "mqtt/lumi"
+topic3 = "mqtt/press"
+
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 username = 'aluno'
@@ -61,19 +64,31 @@ def connect_mqtt() -> mqtt_client:
 
 
 def subscribe(client: mqtt_client):
-    def on_message(client, userdata, msg):
+    def on_message0(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
 
-    client.subscribe(topic)
-    client.on_message = on_message
+    client.subscribe(topic0)
+    client.on_message = on_message0
+
+    def on_message1(client, userdata, msg):
+        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+
+    client.subscribe(topic1)
+    client.on_message = on_message1
 
     def on_message2(client, userdata, msg):
+        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+
+    client.subscribe(topic2)
+    client.on_message = on_message2
+
+    def on_message3(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         mensagem = msg.payload.decode()
         enviarDado(mensagem)
 
-    client.subscribe(topic2)
-    client.on_message = on_message2
+    client.subscribe(topic3)
+    client.on_message = on_message3
 
 
 def run():

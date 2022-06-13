@@ -1,12 +1,14 @@
 # python 3.6
+
 import random
 import time
 
 from paho.mqtt import client as mqtt_client
 
+
 broker = '10.0.0.101'
 port = 1883
-topic = "mqtt/temp"
+topic = "mqtt/press"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'aluno'
@@ -29,8 +31,8 @@ def connect_mqtt():
 def publish(client):
     msg_count = 0
     while True:
-        time.sleep(2)
-        msg = f"messages:{msg_count}"
+        time.sleep(20)
+        msg = f"messages: {msg_count}"
         result = client.publish(topic, msg)
         # result: [0, 1]
         status = result[0]
