@@ -6,6 +6,7 @@
   body {
     height: 90vh;
     display: flex;
+    justify-content: center;
     background: aliceblue;
   }
   
@@ -30,17 +31,10 @@
     background-color: rgba(89, 162, 251, 0.61);
   }
   
-  .dashboard {
-    background-color: #f6f8fa;
-    width: 420px;
-    border-radius: 0 0 20px -15px black;
-    margin: auto;
-  }
-  
   header {
     background-color: white;
     overflow: hidden;
-    border-radius: 0 0 50px 50px;
+    border-radius: 50px;
     padding: 40px 40px 20px;
     box-shadow: 0 -5px 27px 0 rgba(128, 128, 128, 0.15);
   }

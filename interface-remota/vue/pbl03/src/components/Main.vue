@@ -8,7 +8,11 @@
               <h2 class="title">PBL 3</h2>
             </div>
           </div>
-          
+          <div class="actual-value">
+            <div class="value">
+              <strong>{{ temperatura }}°<sup>C</sup></strong>
+            </div>
+          </div>
           <div class="weather f">
             <div>
               <strong>{{ temperatura }}°<sup>C</sup></strong>
@@ -30,17 +34,17 @@
                 <li><a href="#!">Histórico</a></li>
             </ul>
         </div>
-        <Sensors />
+      <Time />
     </div>
 </template>
 <script>
-import Sensors from './Sensors'
+import Time from './Time'
 import api from '../services/api';
 
 export default {
     name:'Main',
     components:{
-        Sensors
+        Time
     },
     data(){
       return{
@@ -65,129 +69,42 @@ export default {
 }
 </script>
 <style  scoped>
-/* DASHBOARD */
-.dashboard {
-background-color: #f6f8fa;
-width: 420px;
-border-radius: 0 0 20px -15px black;
-margin: auto;
-}
-
-header {
-background-color: white;
-overflow: hidden;
-border-radius: 0 0 50px 50px;
-padding: 40px 40px 20px;
-box-shadow: 0 -5px 27px 0 rgba(128, 128, 128, 0.15);
-}
-
-.weather {
-margin-top: 40px;
-width: 100%;
-position: relative;
-overflow: hidden;
-}
-.weather sup {
-font-size: 11px;
-position: relative;
-top: -11px;
-}
-.weather::before {
-content: "";
-position: absolute;
-width: 130px;
-height: 60px;
-background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, white 100%);
-right: 0;
-bottom: 14px;
-}
-.weather > div {
-white-space: nowrap;
-}
-.weather > div + div {
-margin-left: 30px;
-}
-.weather > div > strong {
-font-size: 20px;
-}
-.weather > div > p {
-color: #9e9e9e;
-margin-top: 10px;
-}
-
-.heading .title {
-margin: 0;
-font-size: 36px;
-}
-
-.heading .date {
-margin: 10px 0;
-font-size: 16px;
-}
-
-/* ICONE DA NUVEM */
-.icon-w {
-position: relative;
-height: 20px;
-width: 20px;
-border-radius: 50%;
-background-color: #feb103;
-margin-right: 30px;
-top: -7px;
-}
-.icon-w::after, .icon-w::before {
-content: "";
-position: absolute;
-}
-.icon-w::after {
-width: 28px;
-height: 13px;
-border-radius: 20px;
-background-color: #feb103;
-bottom: 0;
-left: 3px;
-}
-.icon-w::before {
-width: 20px;
-height: 20px;
-box-shadow: 10px -3px 0 -2px rgba(254, 177, 3, 0.59), 3px -15px 1px -7px rgba(254, 177, 3, 0.4), 11px -17px 1px -7px rgba(254, 177, 3, 0.4), 19px -13px 1px -7px rgba(254, 177, 3, 0.4), 22px -4px 1px -7px rgba(254, 177, 3, 0.4);
-border-radius: 50%;
-}
-/* CATEGORIAS */
-.category {
-overflow: hidden;
-margin-top: 30px;
-}
-.category ul {
-display: flex;
-}
-.category li + li {
-margin-left: 40px;
-}
-.category a {
-font-size: 17px;
-font-weight: 600;
-color: #858d9f;
-white-space: nowrap;
-}
-.category a:hover, .category a.active {
-color: #444;
-}
-.category a.active {
-position: relative;
-}
-.category a.active::before {
-content: "";
-width: 6px;
-height: 6px;
-border-radius: 6px;
-background-color: #444;
-position: absolute;
-left: 0;
-right: 0;
-margin: auto;
-bottom: -15px;
-}
-
+  .dashboard {
+    background-color: #f6f8fa;
+    width: 420px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 50px;
+  }
+  .actual-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -40px;
+  }
+  .value{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    box-shadow:  1px 4px 4px rgba(0, 0, 0, 0.25);;
+    background-color: #fff;
+    margin: 40px 0;
+  }
+  .value span {
+    font-size: 80px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    position: relative;
+    }
+  .category {
+    display: flex;
+    justify-content: center;
+  }
 
 </style>
