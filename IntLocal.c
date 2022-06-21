@@ -47,28 +47,29 @@ void addVetor(int* vetor, int data){
 	vetor[0] = data;
 }
 
-char* readData(){
-	char data[35];
+char* readData(int id){
+	static char data[35];
 	char strBufferUmi[3], strBufferTemp[3], strBufferPress[3], strBufferLumi[3];
 
-        if      (histUmi[0] > 99) sprintf(strBufferUmi,   "%d", histUmi[0]);
-        else if (histUmi[0] >  9) sprintf(strBufferUmi,  "0%d", histUmi[0]);
-        else                      sprintf(strBufferUmi, "00%d", histUmi[0]);
+        if      (histUmi[id] > 99) sprintf(strBufferUmi,   "%d", histUmi[id]);
+        else if (histUmi[id] >  9) sprintf(strBufferUmi,  "0%d", histUmi[id]);
+        else                      sprintf(strBufferUmi, "00%d", histUmi[id]);
 
-        if      (histTemp[0] > 99) sprintf(strBufferTemp,   "%d", histTemp[0]);
-        else if (histTemp[0] >  9) sprintf(strBufferTemp,  "0%d", histTemp[0]);
-        else                       sprintf(strBufferTemp, "00%d", histTemp[0]);
+        if      (histTemp[id] > 99) sprintf(strBufferTemp,   "%d", histTemp[id]);
+        else if (histTemp[id] >  9) sprintf(strBufferTemp,  "0%d", histTemp[id]);
+        else                       sprintf(strBufferTemp, "00%d", histTemp[id]);
 
-        if      (histPress[0] > 99) sprintf(strBufferPress,   "%d", histPress[0]);
-        else if (histPress[0] >  9) sprintf(strBufferPress,  "0%d", histPress[0]);
-        else                        sprintf(strBufferPress, "00%d", histPress[0]);
+        if      (histPress[id] > 99) sprintf(strBufferPress,   "%d", histPress[id]);
+        else if (histPress[id] >  9) sprintf(strBufferPress,  "0%d", histPress[id]);
+        else                        sprintf(strBufferPress, "00%d", histPress[id]);
 
-        if      (histLumi[0] > 99) sprintf(strBufferLumi,   "%d", histLumi[0]);
-        else if (histLumi[0] >  9) sprintf(strBufferLumi,  "0%d", histLumi[0]);
-        else                       sprintf(strBufferLumi, "00%d", histLumi[0]);
+        if      (histLumi[id] > 99) sprintf(strBufferLumi,   "%d", histLumi[id]);
+        else if (histLumi[id] >  9) sprintf(strBufferLumi,  "0%d", histLumi[id]);
+        else                       sprintf(strBufferLumi, "00%d", histLumi[id]);
 
-	sprintf(data, "%s;%s;%s;%s;%s", histDate[0], strBufferUmi, strBufferTemp, strBufferPress, strBufferLumi);
-	printf("%s", data);
+	sprintf(data, "%s;%s;%s;%s;%s", histDate[id], strBufferUmi, strBufferTemp, strBufferPress, strBufferLumi);
+	printf("readData: %s\n", data);
+
 	return data;
 }
 
@@ -148,43 +149,15 @@ void readHist(){
 }
 
 void saveHist(){
-	char saveLine[37] = "00/00/0000;00:00:00;000;000;000;000\n";
-	char strBufferUmi[3], strBufferTemp[3], strBufferPress[3], strBufferLumi[3];
 	FILE* pontArq = fopen("Historico.txt", "w");
 
-	for (int i = 0; i < 10; i++){
-		for (int j = 0; j < 19; j++) saveLine[j] = histDate[i][j];
-
-		if 	(histUmi[i] > 99) sprintf(strBufferUmi,   "%d", histUmi[i]);
-		else if (histUmi[i] >  9) sprintf(strBufferUmi,  "0%d", histUmi[i]);
-		else		          sprintf(strBufferUmi, "00%d", histUmi[i]);
-
-		if 	(histTemp[i] > 99) sprintf(strBufferTemp,   "%d", histTemp[i]);
-		else if (histTemp[i] >  9) sprintf(strBufferTemp,  "0%d", histTemp[i]);
-		else			   sprintf(strBufferTemp, "00%d", histTemp[i]);
-
-		if 	(histPress[i] > 99) sprintf(strBufferPress,   "%d", histPress[i]);
-		else if (histPress[i] >  9) sprintf(strBufferPress,  "0%d", histPress[i]);
-		else			    sprintf(strBufferPress, "00%d", histPress[i]);
-
-		if 	(histLumi[i] > 99) sprintf(strBufferLumi,   "%d", histLumi[i]);
-		else if (histLumi[i] >  9) sprintf(strBufferLumi,  "0%d", histLumi[i]);
-		else	        	   sprintf(strBufferLumi, "00%d", histLumi[i]);
-
-		for (int k = 0; k < 3; k++){
-			saveLine[k + 20] = strBufferUmi[k];
-			saveLine[k + 24] = strBufferTemp[k];
-			saveLine[k + 28] = strBufferPress[k];
-			saveLine[k + 32] = strBufferLumi[k];
-		}
-		fprintf(pontArq, "%s", saveLine);
-	}
+	for (int i = 0; i < 10; i++) fprintf(pontArq, "%s\n", readData(i));
 	fclose(pontArq);
 }
 
-int main(int x)
+void main(int x)
 {
-	printf("%d", x);
+	printf("%d\n", x);
 	pthread_t sensorManeger;
 	pthread_create(&sensorManeger, NULL, measure, NULL);
 
@@ -321,4 +294,3 @@ int main(int x)
 		}
 	}
 }
-
