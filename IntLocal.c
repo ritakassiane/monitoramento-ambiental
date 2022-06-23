@@ -104,7 +104,9 @@ void* measure(void *arg){
 		addVetor(histLumi, lumiBuffer);
 		addVetor(histPress, pressBuffer);
 		if (newMeasures[0] != -1) addVetor(histUmi, newMeasures[0]);
+		else 			  addVetor(histUmi, histUmi[0]);
 		if (newMeasures[1] != -1) addVetor(histTemp, newMeasures[1]);
+		else 			  addVetor(histTemp, histTemp[0]);
 
 		t = time(NULL);
 		tm = *localtime(&t);
