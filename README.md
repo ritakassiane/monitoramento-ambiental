@@ -14,45 +14,45 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 
 <h1 align="center"> Sumário </h1>
 <div id="sumario">
-	<ul>
+	<ol>
 		<li><a href="#MQTT"> MQTT </a></li>
 		<li><a href="#SBC"> SBC </a>
-			<ul>
+			<ol>
 				<li><a href="#MLSEB">Leitura dos Eensores e Envio Para o Broker</a>
-					<ul>
+					<ol>
 					   <li><a href="#DHT11">Sensor DHT11</a></li>
 					   <li><a href="#Potenciomentro">Potenciômetro</a></li>
 					   <li><a href="#Broker">Envio de dados para o Broker</a></li>
-					</ul>
+					</ol>
 				</li>
 				<li><a href="#IHM">Interface Homem-Máquina</a>
-					<ul>
+					<ol>
 					    <li><a href="#Display">Display e Butões</a></li>
 					    <li><a href="#Estados">Máquina de Estados da Interface</a></li>
-					</ul>
+					</ol>
 				</li>
 				<li><a href="#PDados">Permanencia de Dados</a></li>
-			</ul>
+			</ol>
 		</li>
 		<li><a href="#IRemota"> Interface Remota</a>
-			<ul>
+			<ol>
 			    <li><a href="#Back">Backend</a>
-					<ul>
+					<ol>
 					    <li><a href="#MQTTR">MQTT e Envio de Dados</a></li>
 					    <li><a href="#API">Rest API</a></li>
-					</ul>
+					</ol>
 			    </li>
 			    <li><a href="#Front"> Frontend </a> </li>
-		        </ul>
+		        </ol>
 		</li>
 		<li><a href="#MakeFille"> Como Executar </a> 
-			<ul>
+			<ol>
 				<li><a href="#SRestAPI"> Subindo a Rest API </a> 
 				<li><a href="#Vue"> Subindo a aplicação Vue.js </a> 
-			</ul>
+			</ol>
 		</li>
 		<li><a href="#MakeFille"> Conclusão </a> 
-	</ul>	
+	</ol>	
 </div>
 <div id="recursos">
 	<h1> Recursos </h1>
