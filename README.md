@@ -36,16 +36,22 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 		</li>
 		<li><a href="#IRemota"> Interface Remota</a>
 			<ul>
-				<li><a href="#Back">Backend</a>
+			    <li><a href="#Back">Backend</a>
 					<ul>
 					    <li><a href="#MQTTR">MQTT e Envio de Dados</a></li>
 					    <li><a href="#API">Rest API</a></li>
 					</ul>
-				</li>
-				<li><a href="#Front"> Frontend </a> </li>
-				
+			    </li>
+			    <li><a href="#Front"> Frontend </a> </li>
+		        </ul>
+		</li>
+		<li><a href="#MakeFille"> Como Executar </a> 
+			<ul>
+				<li><a href="#SRestAPI"> Subindo a Rest API </a> 
+				<li><a href="#Vue"> Subindo a aplicação Vue.js </a> 
 			</ul>
 		</li>
+		<li><a href="#MakeFille"> Conclusão </a> 
 	</ul>	
 </div>
 <div id="recursos">
