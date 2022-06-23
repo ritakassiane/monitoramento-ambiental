@@ -1,6 +1,9 @@
-# 📌Sistemas Digitais
+# 📌Monitoramento Ambiental - Sistemas Digitais
 <p>
-O a
+O investimento pesado que as empresas seguem fazendo na indústria 4.0 tem como resultado um mercado ainda mais competitivo. Em conjunto com  o advento de chips de computador e telecomunicações de alta largura de banda, agora temos bilhões de dispositivos conectados à Internet. Neste cenário, cada vez mais os governos locais e empresas têm usado a Internet das Coisas (IoT) para os mais diversos diversos usos.
+	
+	Neste sentido, uma empresa contratou uma equipe de engenheiros da computação em formação, para desenvolver um protótipo de um sistema para monitoramento ambiental. O produto desenvolvido conta com um sistema comandado por Single Board Computer (SBC), a qual requisita as leituras realizadas pelos sensores e mostra os dados através de uma Interface Homem-Máquina. O produto ainda conta com uma interface remota que obtém os dados do SBC através de um protocolo de comunicação MQTT.
+
 </p>
 
 <h1>  👥Equipe: <br></h1>
