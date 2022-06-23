@@ -15,14 +15,9 @@ O a
 	<ul>
 		<li><a href="#diagrama"> Diagrama</li>
 		<li><a href="#recursos"> Recursos  </a></li>
-		<li><a href="#raspberry"> Configurando, enviado e recebendo dados na Raspberry Pi Zero </a> </li>
-		<li><a href="#uart-rx"> Recebendo dados via UART através da FPGA </a></li>
-		<li><a href="#uart-tx"> Enviando dados via UART através da FPGA </a> </li>
-		<li><a href="#selector"> Selecionando endereço e requisição </a> </li>
-		<li><a href="#dht11"> Recebendo dados do sensor </a> </li>
-		<li><a href="#interface"> Filtrando requisição para obter dado solicitado  </a> </li>
-		<li><a href="#pins-les"> Pins e LE's </a> </li>
-		<li><a href="#executar"> Como executar </a></li>
+		<li><a href="#mqtt"> MQTT </a> </li>
+		<li><a href="#sbc">SBC</a></li>
+		<li><a href="#interface-remota"> Interface Remota</a> </li>
 		<li><a href="#conclusao"> Conclusão </a> </li>
 	</ul>	
 </div>
