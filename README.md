@@ -51,13 +51,13 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 				<li><a href="#Vue"> Subindo a aplicação Vue.js </a> 
 			</ol>
 		</li>
-		<li><a href="#MakeFille"> Conclusão </a> 
+		<li><a href="#conclusao"> Conclusão </a> 
 	</ol>	
 <div id="MQTT">
 	<h1>  MQTT </h1>
 	<p>O Message Queue Telemetry Transport (MQTT) é um protocolo de comunicação entre máquinas (Machine to Machine - M2M) utilizado neste sistema para os envios de mensagens e comandos do Client local e o Client remoto, por intermédio do nosso servidor broker MQTT, sendo o mosquitto este utilizado.</p>
 	<p>O nosso Client local foi desenvolvido em C e conta com a utilização da biblioteca <a href="https://mosquitto.org/api/files/mosquitto-h.html">mosquitto.h.</a> Através do  “Publish” deste Client é que os dados lidos através dos sensores, o tempo de medição destes e data das medições,  são publicados em tópicos do broker para que qualquer Client “Subscriber” possa ter acesso. Além disso, esse Client está inscrito no tópico de tempo de medição, para que quando esta configuração for alterada remotamente, o sistema entenda e modifique o tempo de leitura dos sensores localmente.</p>
-	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca (https://www.eclipse.org/paho/index.php?page=clients/python/index.php).</p>	
+	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca<a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php"> paho MQTT.</a></p>	
 </div>
 <div id="conclusao">
 	<h1>Conclusão</h1>
