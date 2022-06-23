@@ -54,16 +54,6 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 		<li><a href="#MakeFille"> Conclusão </a> 
 	</ol>	
 </div>
-<div id="recursos">
-	<h1> Recursos </h1>
-	<ul>
-		<li>Kit de desenvolvimento Mercúrio IV</li>
-		<li>FPGA Cyclone IV</li>
-		<li>Raspberry Pi Zero<V/li>
-	</ul>
-	
-</div>
-
 
 	
 </div>
