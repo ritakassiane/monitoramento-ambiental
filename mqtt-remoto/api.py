@@ -12,7 +12,7 @@ app.config["DEBUG"] = True
 allData = []
 
 # A função a seguir recebe um dicionario, e parametros equivalentes à quais chaves devem ser excluidas
-# Retorna um novo dicionario excluindo
+# Retorna um novo dicionario excluindo as chaves passadas pelo parametro
 def without_keys(d, *keys):
     return {k: v for k, v in d.items() if k not in keys}
 
