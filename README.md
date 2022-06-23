@@ -57,8 +57,20 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 	<h1>  MQTT </h1>
 	<p>O Message Queue Telemetry Transport (MQTT) é um protocolo de comunicação entre máquinas (Machine to Machine - M2M) utilizado neste sistema para os envios de mensagens e comandos do Client local e o Client remoto, por intermédio do nosso servidor broker MQTT, sendo o mosquitto este utilizado.</p>
 	<p>O nosso Client local foi desenvolvido em C e conta com a utilização da biblioteca <a href="https://mosquitto.org/api/files/mosquitto-h.html">mosquitto.h.</a> Através do  “Publish” deste Client é que os dados lidos através dos sensores, o tempo de medição destes e data das medições,  são publicados em tópicos do broker para que qualquer Client “Subscriber” possa ter acesso. Além disso, esse Client está inscrito no tópico de tempo de medição, para que quando esta configuração for alterada remotamente, o sistema entenda e modifique o tempo de leitura dos sensores localmente.</p>
-	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca<a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php"> paho MQTT.</a></p>	
+	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">paho MQTT.</a></p>	
 </div>
+	
+<div id="MQTTR">
+	<h1>MQTT e Envio de Dados</h1>
+	<pr>Como dito no tópico de <a href="#MQTT">MQTT</a>, a interface remota está inscrita no tópico que contém uma payload com uma string no modelo de “00/00/0000;00:00:00;000;000;000;000”, sendo ele interpretado da seguinte forma:<pr> <br></br>
+<ol>
+	<li>Os 10 primeiros caracteres (incluindo as “/” ) são referentes a data da medição realizada.</li>
+	<li>Os 8 caracteres em sequência (incluindo os “:”) são referentes ao horário em que a medição foi realizada.</li>
+	<li>Os próximos 4 agrupamentos de 3 caracteres separados por “;” são equivalentes respectivamente a umidade, temperatura, pressão atmosférica e luminosidade 	     </li>
+</ol>	
+<pr>Esse dado após ser recebido pelo Client, ele é tratado e separado de forma a ser convertido em um JSON, o qual servirá de base para a nossa API.</pr>
+</div>
+	
 <div id="conclusao">
 	<h1>Conclusão</h1>
 	<p>
