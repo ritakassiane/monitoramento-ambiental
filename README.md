@@ -77,11 +77,77 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 <p>No código principal a leitura da umidade e temperatura é feita pela pela função readDHT11() que lê o sensor e escreve a parte inteira dos valores lidos em uma variável global newMeasure, caso o sensor dê algum erro o valor escrito será -1 independente do erro dado.</p>
 </div>
 
-<div id"SBC">
+<div id="Potenciomentro">
+	<h1>Potenciômetros</h1>
+	<p>Os potenciómetros foram utilizados como simuladores de sensores de pressão e luminosidade já que os mesmo normalmente são sensores analogicos. A SBC utilizada não contém uma porta analógica já implementada, por conta disso é utilizado um componente externo que faz essa leitura, no caso um ADS1115. Para a leitura desse componente é usado como base um código do GitHub (https://github.com/giobauermeister/ads1115-linux-rpi) que entende a conversão analogica I2C e retorna o valor dado. Para esse código, diferente do da leitura do DHT11, não foram feitas alterações significativas para a sua utilização.</p>
+</div>
+	
+<div id="Broker">
+	<h1>Envio dos dados para o broker</h1>
+	<p>Após a leitura dos dados dos sensores, é feita uma análise se os dados lidos são válidos, no nosso caso se a umidade ou a temperatura são diferentes de -1, caso sejam, os dados são salvos no vetor global que guarda o histórico, caso o dado lido não seja válido, será ignorado a medição e repetirá o último dado lido como se fosse o dado atual.</p>
+<p>Com os dados salvos no histórico local é então publicado no tópico “measuresSBC” as medidas calculadas junto com a data e hora da medição seguindo o padrão “data;hora;umidade;temperatura;pressão;luminosidade” de tal forma que os valores sempre estejam escritos com 3 casas decimais (ex: 22/06/2022;22:47:30;022;063;125;328). Por fim a thread volta a esperar o tempo determinado para a próxima medição.</p>
+</div>
+	
+<div id="IHM">
+	<h1>Interface Homem-Máquina</h1>
+	<p>
+	</p>
+</div>
+
+<div id="SBC">
 	<h1>SBC</h1>
 	<p>
 	</p>
 </div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+
 
 <div id="MQTTR">
 	<h1>MQTT e Envio de Dados</h1>
