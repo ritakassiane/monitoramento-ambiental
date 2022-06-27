@@ -191,15 +191,13 @@ A Rest API desenvolvida possui os seguintes endpoints:</p>
 </div>
 	
 <div id="Front">
-	<h1>SBC</h1>
-	<p>
-	</p>
+	<h1>Frontend</h1>
+	<p>Uma aplicação que utiliza o framework Vue.JS para implementar a interface do usuário previamente definida [imagem do UI] a qual é capaz de enviar requisições e exibir dados consumidos de uma API que se comunica com o broker. Para realizar a comunicação com a API utilizou-se o cliente HTTP Axios.</p>
 </div>
 	
 <div id="MakeFille">
-	<h1>SBC</h1>
-	<p>
-	</p>
+	<h1>Como executar/h1>
+	<p>Para executar localmente, configure e execute o broker Mosquitto. Posteriormente, abra um terminal no diretório /SBC e para inicializar a interface local e leitura dos sensores, execute o comando:<h6>make all</h6></p>
 </div>
 	
 <div id="SRestAPI">
