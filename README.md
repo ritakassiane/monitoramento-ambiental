@@ -204,11 +204,8 @@ A Rest API desenvolvida possui os seguintes endpoints:</p>
 	<h1>Subindo a REST API</h1>
 	<p>
 Utilizando o gerenciador de pacotes pip, execute o seguinte comando para instalar as dependências: 
-
 	<h5 align="center">pip install -r requirements.txt</h5>
-Posteriormente, execute o arquivo api.py localizado no diretório /MQTT_Remoto/api.py
-
-	</p>
+Posteriormente, execute o arquivo api.py localizado no diretório /MQTT_Remoto/api.py</p>
 </div>
 	
 <div id="Subindo a aplicação Vue.js">
