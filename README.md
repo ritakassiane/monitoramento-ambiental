@@ -59,7 +59,29 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 	<p>O nosso Client local foi desenvolvido em C e conta com a utilização da biblioteca <a href="https://mosquitto.org/api/files/mosquitto-h.html">mosquitto.h.</a> Através do  “Publish” deste Client é que os dados lidos através dos sensores, o tempo de medição destes e data das medições,  são publicados em tópicos do broker para que qualquer Client “Subscriber” possa ter acesso. Além disso, esse Client está inscrito no tópico de tempo de medição, para que quando esta configuração for alterada remotamente, o sistema entenda e modifique o tempo de leitura dos sensores localmente.</p>
 	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">paho MQTT.</a></p>	
 </div>
-	
+
+<div id"SBC">
+	<h1>SBC</h1>
+	<p>A SBC utilizada para esse projeto foi uma (rasp) que executa apenas um programa, feito em C, com três finalidades: Ler continuamente os sensores monitorados, controlar uma interface homem máquina localmente utilizando de um display LCD e botões e enviar e receber dados através da comunicação MQTT. Todas as funcionalidades são feitas em um mesmo processo, contudo em threads diferentes, uma para os sensores e envio de dados para o broker, outra para a interface local homem máquina e uma terceira para receber um dado publicado no broker. A seguir, um detalhamento para cada uma dessas threads.</p>
+</div>
+
+<div id"MLSEB">
+	<h1>Leitura dos sensores e envio de dados para o broker</h1>
+	<p>A leitura dos sensores é feita continuamente de tempo em tempo, esse que inicia com 6s e pode ser alterado, e nos retorna umidade, temperatura, pressão e luminosidade onde a umidade e temperatura são medidos por um sensor DHT11 e a pressão junto com a luminosidade são simulados por dois potenciômetros a fim de gerar um sinal analógico para a SBC. Após a leitura dos sensores é verificado os dados e então são salvos e enviados para o broker. Nos próximos tópicos são detalhados como foi feita a leitura dos sensores e o envio dos dados lidos para o broker.</p>
+</div>
+
+<div id"SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+
+<div id"SBC">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+
 <div id="MQTTR">
 	<h1>MQTT e Envio de Dados</h1>
 	<pr>Como dito no tópico de <a href="#MQTT">MQTT</a>, a interface remota está inscrita no tópico que contém uma payload com uma string no modelo de “00/00/0000;00:00:00;000;000;000;000”, sendo ele interpretado da seguinte forma:<pr> <br></br>
