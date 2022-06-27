@@ -7,6 +7,7 @@
 #include <lcd.h>
 #include <time.h>
 #include <ads1115_rpi.h>
+#include <mosquitto.h>
 #include <string.h>
 #include "DHT11.h"
 
@@ -39,7 +40,7 @@ int 	histTemp[10];
 int 	histPress[10];
 int 	histLumi[10];
 int 	sTime = 6;
-bool 	exitB = false;
+bool 	exitMenu = 0, exitMqtt = 0, exitSensor = 0;
 
 void addVetor(int* vetor, int data){
 	for (int i = 9; i > 0 ; i--){
@@ -86,17 +87,116 @@ void readDHT11(){
 	}
 }
 
+int mqtt_pubTimer(int dado){
+        int rc;
+        struct mosquitto * mosq;
+	char timer[4];
+	sprintf(timer, "%d", dado);
+        mosquitto_lib_init();
+
+        mosq = mosquitto_new("mqttTimer", true, NULL);
+
+        mosquitto_username_pw_set(mosq, "aluno", "aluno*123");
+        rc = mosquitto_connect(mosq, "10.0.0.101", 1883, 60);
+
+        if(rc != 0){
+                printf("Cliente não se conectou ao broker: Erro %d\n", rc);
+                mosquitto_destroy(mosq);
+                return -1;
+        }
+
+        mosquitto_publish(mosq, NULL, "Timer", 4, timer, 0, false);
+
+        mosquitto_disconnect(mosq);
+        mosquitto_destroy(mosq);
+
+        mosquitto_lib_cleanup();
+        return 0;
+}
+
+int mqtt_pubMeasures(char * dado){
+        int rc;
+        struct mosquitto * mosq;
+
+        mosquitto_lib_init();
+
+        mosq = mosquitto_new("mqttMeasures", true, NULL);
+
+        mosquitto_username_pw_set(mosq, "aluno", "aluno*123");
+        rc = mosquitto_connect(mosq, "10.0.0.101", 1883, 60);
+
+        if(rc != 0){
+                printf("Cliente não se conectou ao broker: Erro %d\n", rc);
+                mosquitto_destroy(mosq);
+                return -1;
+        }
+
+        mosquitto_publish(mosq, NULL, "measuresSBC", 35, dado, 0, false);
+
+        mosquitto_disconnect(mosq);
+        mosquitto_destroy(mosq);
+
+        mosquitto_lib_cleanup();
+        return 0;
+}
+
+void on_connect(struct mosquitto *mosq, void *obj, int rc){
+        if (rc){
+                printf("Erro: %d\n", rc);
+                exit(-1);
+        }
+        mosquitto_subscribe(mosq, NULL, "Timer", 0);
+}
+
+void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_message *msg){
+	int buffer = atoi(msg->payload);
+	if (3 > buffer) 	sTime = 3;
+	if (99999 < buffer) 	sTime = 99999;
+	else 			sTime = buffer;
+}
+
+void* mqtt_sub(void *arg){
+        int rc, id = 310;
+
+        mosquitto_lib_init();
+
+        struct mosquitto *mosq;
+
+        mosq = mosquitto_new("mqtt/Timer", true, &id);
+        mosquitto_connect_callback_set(mosq, on_connect);
+        mosquitto_message_callback_set(mosq, on_message);
+
+        mosquitto_username_pw_set(mosq, "aluno", "aluno*123");
+        rc = mosquitto_connect(mosq, "10.0.0.101", 1883, 60);
+
+        if(rc){
+                printf("Erro ao Sub se conectar ao broker\n");
+		exitMqtt = 1;
+        } else {
+        	mosquitto_loop_start(mosq);
+		while(!exitMenu);
+	       	mosquitto_loop_stop(mosq, true);
+
+        	mosquitto_disconnect(mosq);
+		mosquitto_destroy(mosq);
+		mosquitto_lib_cleanup();
+		exitMqtt = 1;
+	}
+}
+
+
 void* measure(void *arg){
         time_t t;
         struct tm tm;
 
+	char mqttData[32];
 	int lumiBuffer, pressBuffer, dateBufferInt[6];
 	char dateBuffer[19];
 	if(openI2CBus("/dev/i2c-1") == -1){
 		printf("Sensor não está sendo lido!\n");
 	}
 	setI2CSlave(0x48);
-	while(!exitB){
+	while(!exitMenu){
 		lumiBuffer = readVoltage(0) *100;
 		pressBuffer = readVoltage(1) *100;
 		readDHT11();
@@ -104,9 +204,7 @@ void* measure(void *arg){
 		addVetor(histLumi, lumiBuffer);
 		addVetor(histPress, pressBuffer);
 		if (newMeasures[0] != -1) addVetor(histUmi, newMeasures[0]);
-		else 			  addVetor(histUmi, histUmi[0]);
 		if (newMeasures[1] != -1) addVetor(histTemp, newMeasures[1]);
-		else 			  addVetor(histTemp, histTemp[0]);
 
 		t = time(NULL);
 		tm = *localtime(&t);
@@ -118,8 +216,12 @@ void* measure(void *arg){
 
 		strcpy(histDate[0], dateBuffer);
 
+		strcpy(mqttData, readData(0));
+		mqtt_pubMeasures(mqttData);
+
 		sleep(sTime);
 	}
+	exitSensor = 1;
 }
 
 void readHist(){
@@ -160,8 +262,9 @@ void saveHist(){
 
 void main()
 {
-	pthread_t sensorManeger;
+	pthread_t sensorManeger, mqttSubManeger;
 	pthread_create(&sensorManeger, NULL, measure, NULL);
+	pthread_create(&mqttSubManeger, NULL, mqtt_sub, NULL);
 
 	int lcd;
 	wiringPiSetup();
@@ -182,7 +285,7 @@ void main()
 					 "<      <<       ",
 					 "+      <<      -"};
 
-	char displayUnit[4][17] = 	{"%", " C", "atm", ""};
+	char displayUnit[4][17] = 	{"%", " C", "atm", "lux"};
 	displayUnit[1][0] = 223; // °
 
 	int bufferTime = sTime;
@@ -199,7 +302,7 @@ void main()
 		histLumi[i] = 0;
 	}
 
-	while(!exitB) {
+	while(!exitMenu) {
 		lcdClear(lcd);
         	lcdPosition(lcd, 0, 0);
 		switch (state){
@@ -211,7 +314,9 @@ void main()
 				if 	(button == 1 && menu > 0) menu--;
 				else if (button == 3 && menu < 5) menu++;
 				else if (button == 2){
-					if 	(menu == 4) state = EDITOR;
+					if 	(menu == 4) {
+							    state = EDITOR;
+							    bufferTime = sTime;}
 					else if (menu == 5) state = EXIT;
 					else	 	    state = HISTORIC;
 				}
@@ -225,17 +330,17 @@ void main()
 				}
 				break;
 			case EDITOR:
-				if (button == 1) bufferTime++;
+				if (button == 1 && bufferTime < 99999) bufferTime++;
 				else if (button == 3 && bufferTime > 3) bufferTime--;
 				else if	(button == 2){
 					state = MENU;
-					sTime = bufferTime;
+					mqtt_pubTimer(bufferTime);
 				}
 				break;
 			case EXIT:
 				if (button == 1){
 					saveHist();
-					exitB = 1;
+					exitMenu = 1;
 				}
 				else if (button == 3) state = MENU;
 				break;
@@ -257,18 +362,20 @@ void main()
 				break;
 			case HISTORIC:
 				if(hist % 2){
-					//sprintf(bufferInt, "%d: ", hist/2 + 1);
-					//lcdPuts(lcd, bufferInt);
+					sprintf(bufferInt, "%d:", hist/2 + 1);
+					lcdPuts(lcd, bufferInt);
 					if	(menu == 0) sprintf(bufferInt, "%d", histUmi[hist/2]);
 					else if (menu == 1) sprintf(bufferInt, "%d", histTemp[hist/2]);
 					else if (menu == 2) sprintf(bufferInt, "%d", histPress[hist/2]);
 					else if (menu == 3) sprintf(bufferInt, "%d", histLumi[hist/2]);
 					lcdPuts(lcd, bufferInt);
 					lcdPuts(lcd, displayUnit[menu]);
+				} else if (hist == 0){
+					lcdPuts(lcd, "  Medida Atual  ");
 				} else {
-					lcdPutchar(lcd, ' ');
+					sprintf(bufferInt,"%d:", hist/2 +1);
+					lcdPuts(lcd, bufferInt);
 					for(int i = 0; i < 19; i++){
-						// 00/00 00:00:00
 						if (i == 5){
 							i = 10;
 							lcdPutchar(lcd, ' ');
@@ -296,16 +403,17 @@ void main()
 				break;
 		}
 
-		while (button != 0 && !exitB) {
+		while (button != 0 && !exitMenu) {
 			if(digitalRead(BUT_0) && digitalRead(BUT_1) && digitalRead(BUT_2))
 				button = 0;
 		}
 		delay(60);
-		while (button == 0 && !exitB){
+		while (button == 0 && !exitMenu){
 			if(!digitalRead(BUT_0)) button = 1;
 			else if(!digitalRead(BUT_1)) button = 2;
 			else if(!digitalRead(BUT_2)) button = 3;
 
 		}
 	}
+	while (!exitMqtt || !exitSensor);
 }
