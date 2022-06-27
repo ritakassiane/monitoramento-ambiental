@@ -60,20 +60,21 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 	<p>Por sua vez o Client remoto está inscrito em todos os tópicos do nosso broker, com a finalidade de que seja possível mostrar em tempo real para o usuário as novas medições feitas. O Client remoto conta com somente um “Publish”, o qual funciona de modo que, ao ocorrer uma alteração do tempo de medição, esse novo dado seja enviado para o broker a fim de que o SBC possa sincronizar e efetivar as novas leituras dos sensores no tempo estipulado. O seu desenvolvimento foi feito utilizando a linguagem python e com auxílio da biblioteca <a href="https://www.eclipse.org/paho/index.php?page=clients/python/index.php">paho MQTT.</a></p>	
 </div>
 
-<div id"SBC">
+<div id="SBC">
 	<h1>SBC</h1>
 	<p>A SBC utilizada para esse projeto foi uma (rasp) que executa apenas um programa, feito em C, com três finalidades: Ler continuamente os sensores monitorados, controlar uma interface homem máquina localmente utilizando de um display LCD e botões e enviar e receber dados através da comunicação MQTT. Todas as funcionalidades são feitas em um mesmo processo, contudo em threads diferentes, uma para os sensores e envio de dados para o broker, outra para a interface local homem máquina e uma terceira para receber um dado publicado no broker. A seguir, um detalhamento para cada uma dessas threads.</p>
 </div>
 
-<div id"MLSEB">
+<div id="MLSEB">
 	<h1>Leitura dos sensores e envio de dados para o broker</h1>
 	<p>A leitura dos sensores é feita continuamente de tempo em tempo, esse que inicia com 6s e pode ser alterado, e nos retorna umidade, temperatura, pressão e luminosidade onde a umidade e temperatura são medidos por um sensor DHT11 e a pressão junto com a luminosidade são simulados por dois potenciômetros a fim de gerar um sinal analógico para a SBC. Após a leitura dos sensores é verificado os dados e então são salvos e enviados para o broker. Nos próximos tópicos são detalhados como foi feita a leitura dos sensores e o envio dos dados lidos para o broker.</p>
 </div>
 
-<div id"SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
+<div id"DHT11">
+	<h1>Sensor DHT11</h1>
+	<p>O sensor DHT11 é um sensor assíncrono onde a diferença de 0 e 1 no dado enviado é obtido pelo tempo que o sinal fica em alta, 0 caso o sinal fique em alta por 28ns e 1 caso o sinal fique em alta por 70ns. Para a sua medição foi utilizado como base um código do GitHub (https://github.com/Microcontrolandos/DHT11) o qual recebe dois ponteiros para arrays de caracteres, para cada caractere representa um byte, adicionando neles os valores lido e retornando se a leitura foi feita com sucesso, caso contrário informando o erro gerado.</p>
+<p>Com o intuito de se encaixar com o nosso programa, o código base sofreu algumas alterações simples para se encaixar na biblioteca wiringPi, a primeira foi utilizar as funções da própria biblioteca para o gerenciamento das GPIOs e a segunda foi a adição de um novo parâmetro na chamada da função que indica em qual GPIO está conectado o sensor.</p>
+<p>No código principal a leitura da umidade e temperatura é feita pela pela função readDHT11() que lê o sensor e escreve a parte inteira dos valores lidos em uma variável global newMeasure, caso o sensor dê algum erro o valor escrito será -1 independente do erro dado.</p>
 </div>
 
 <div id"SBC">
