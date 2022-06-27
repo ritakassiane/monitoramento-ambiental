@@ -196,34 +196,32 @@ A Rest API desenvolvida possui os seguintes endpoints:</p>
 </div>
 	
 <div id="MakeFille">
-	<h1>Como executar/h1>
-	<p>Para executar localmente, configure e execute o broker Mosquitto. Posteriormente, abra um terminal no diretório /SBC e para inicializar a interface local e leitura dos sensores, execute o comando:<h6>make all</h6></p>
+	<h1>Como executar</h1>
+	<p>Para executar localmente, configure e execute o broker Mosquitto. Posteriormente, abra um terminal no diretório /SBC e para inicializar a interface local e leitura dos sensores, execute o comando: <h5 align="center">make all</h5></p>
 </div>
 	
 <div id="SRestAPI">
-	<h1>SBC</h1>
+	<h1>Subindo a REST API</h1>
 	<p>
-	</p>
-</div>
-	
-<div id="Vue">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
-	
-<div id="conclusao">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
+Utilizando o gerenciador de pacotes pip, execute o seguinte comando para instalar as dependências: 
 
+	<h5 align="center">pip install -r requirements.txt</h5>
+Posteriormente, execute o arquivo api.py localizado no diretório /MQTT_Remoto/api.py
 
+	</p>
+</div>
 	
+<div id="Subindo a aplicação Vue.js">
+	<h1>SBC</h1>
+	<p>Abra um terminal dentro do diretório principal do projeto Vue, e utilizando o gerenciador de pacotes npm, execute o seguinte comando para instalar as dependências e rodar localmente, respectivamente:
+	<h5 align="center">npm install</h5>
+	<h5 align="center">npm run serve</h5>
+	</p>
+</div>
+		
 <div id="conclusao">
 	<h1>Conclusão</h1>
 	<p>
-	Para atingir o objetivo solicitado neste problema foi necessário compreender conceitos da programação em Verilog e integrar código assembly e C, a fim de solidificar o entendimento dos conceitos básicos a cerca de protocolos de comunicação serial.
-	Além disso, o problema solucionado cumpre <strong>todos</strong> os requisitos solicitados, e foi desenvolvido utilizando Raspberry Pi Zero e FPGA Cyclone IV, além de ter sido devidamente testado através da verificação do dado enviado e recebido utilizando o osciloscópio.
-	</p>
+	Para atingir o objetivo solicitado neste problema foi necessário inferir sobre o funcionamento do protocolo MQTT, a fim de integrar sensores com aplicações através deste. Com este projeto, o sistema desenvolvido auxiliou os graduandos em Engenharia da Computação a solidificar seus conhecimentos sobre integração de sistemas e adentrar mais profundamente ao universo de IoT (Internet das Coisas).</p>
+<p>O produto implementado cumpre todos os requisitos solicitados, e foi desenvolvido e testado utilizando sensores acoplados a uma Raspberry Pi Zero.</p>
 </div>
