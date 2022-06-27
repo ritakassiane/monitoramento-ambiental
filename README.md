@@ -90,67 +90,36 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 	
 <div id="IHM">
 	<h1>Interface Homem-Máquina</h1>
-	<p>
-	</p>
+	<p>A interface Homem-Máquina da SBC, também chamada de interface local, é feita com 3 botões como input e o display LCD como output e a lógica do menu foi construída utilizando a filosofia de máquinas de estados. A seguir é detalhado mais as duas partes da interface local.</p>
 </div>
 
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
+<div id="Display">
+	<h1>Display e botões </h1>
+	<p>O display LCD utilizado contém 2 linhas de 16 caracteres cada de tal forma que, em nossa interface, a primeira linha é destinada para demonstrar dados, local do menu ou perguntas para o usuário e a linha de baixo e destinada para as opções que usuário pode selecionar no momento utilizando os botões podendo passar o menu para direita ou esquerda, selecionar algo, voltar para o menu entre outras.</p>
 </div>
 	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
+<div id="Estados">
+	<h1>Máquina de Estados da Interface</h1>
+	<p>A interface local é construída usando a filosofia de máquinas de estados onde o programa entende de forma diferente os inputs dependendo de onde o usuário se encontra na mesma. Os estados presentes são o Start, Menu, Historic, Editor e Exit seguindo a lógica descrita no diagrama abaixo.</p>
+<p><h1>(Foto do diagrama)</h1></p>
+<p>No estado de Start é demonstrado que o programa está executando. Nele todas as threads e valores iniciais são criados, o histórico salvo em arquivo é lido e uma mensagem simbólica e escrita no display LCD, mudando de estado para Menu assim que qualquer botão é pressionado. O estado Menu é o principal estado da interface, pois dele podemos ir para quaisquer outros 3 estados e os mesmo sempre voltam para esse. Neste estado podemos selecionar ver os dados medidos junto com o histórico, indo para o estado Historic, alterar o tempo de medição, indo para Edit, ou finalizar o processo, indo para Exit.</p>
+ <p>Dependendo da opção escolhida, o estado Historic mostra as dez últimas medidas feitas do dado escolhido mostrando sequencialmente o momento que foi lido do sensor e depois o dado lido. O estado Edit é onde é possível alterar o tempo de medição, não podendo ser menor que três segundos, de tal forma que quando volta para o estado de Menu o novo tempo é enviado para o broker no tópico de “timeMeasure”.</p>
+<p>Quando o programa chega no estado de Exit, pergunta para o usuário se tem a real intenção de finalizar o programa, caso afirmativo, ele salva os dados medidos no arquivo de histórico do mesmo formato que enviado para o tópico “measures“ do broker, finaliza qualquer coneção com o mesmo e finaliza todas as threads.</p>
 </div>
 
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
+<div id="PDados">
+	<h1>Recebimento de uma publicação no Broker</h1>
+	<p>O tempo de medição que a thread de leitura dos sensores utiliza pode ser alterada por qualquer interface homem-máquina, independente de ser local ou externa. Para isso o tempo de medição é um tópico do broker que qualquer interface pode publicar e que a sbc se inscreve tendo essa thread para “escutar” continuamente o broker. Assim que uma interface publicar um valor o programa atualiza uma variável global sTime, fazendo com que a próxima espera para uma nova leitura já seja com o novo valor.</p>
 </div>
 	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
+<div id="IRemota">
+	<h1>Interface Remota</h1>
+	<p>Para ser possível acessar as medições remotamente, foi desenvolvido uma interface web  capaz de coletar os dados e configurar o tempo da estação de medição. Esse módulo é subdividido em dois, os quais são: Backend e Frontend</p>
 </div>
 	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
 	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
-	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
-	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
-	
-<div id="SBC">
-	<h1>SBC</h1>
-	<p>
-	</p>
-</div>
-
-
 <div id="MQTTR">
-	<h1>MQTT e Envio de Dados</h1>
+	<h1>Backend: MQTT e Envio de Dados</h1>
 	<pr>Como dito no tópico de <a href="#MQTT">MQTT</a>, a interface remota está inscrita no tópico que contém uma payload com uma string no modelo de “00/00/0000;00:00:00;000;000;000;000”, sendo ele interpretado da seguinte forma:<pr> <br></br>
 <ol>
 	<li>Os 10 primeiros caracteres (incluindo as “/” ) são referentes a data da medição realizada.</li>
@@ -159,6 +128,99 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 </ol>	
 <pr>Esse dado após ser recebido pelo Client, ele é tratado e separado de forma a ser convertido em um JSON, o qual servirá de base para a nossa API.</pr>
 </div>
+	
+<div id="API">
+	<h1>Backend: Rest API </h1>
+	<p>Um programa desenvolvido utilizando Python, o qual consiste na implementação de uma API capaz de capturar as requisições enviadas pelo front-end, e se conectar com o broker para devolver dados acerca dos sensores, os quais através de um endpoint podem ser acessados por aplicações externas. 
+A Rest API desenvolvida possui os seguintes endpoints:</p>
+<p>/send-data [POST]: Esse endpoint é responsável por receber requisições do tipo POST de dados no formato JSON acerca das medições do sensor. O padrão de request pode ser representado por:</p>
+{
+    "data": 07/09/2000,
+     "horario": 14:30,
+     "temperatura": 25,
+     "umidade": 38,
+      "pressao": 1
+      "luminosidade": 27
+}</p>
+<p>/  [GET] : Retorna uma lista que possui uma lista para cada sensor. Cada posição desta equivale a um valor medido e enviado para o endpoint POST descrito no tópico anterior. O template padrão pode ser representado por:
+[
+{
+    "data": 07/09/2000,
+     "horario": 14:30,
+     "temperatura": 25,
+     "umidade": 38,
+      "pressao": 1
+      "luminosidade": 27
+},
+{
+    "data": 07/09/2000,
+     "horario": 14:30,
+     "temperatura": 25,
+     "umidade": 38,
+      "pressao": 1
+      "luminosidade": 27
+}
+]</p>
+
+<p>/temperatura [GET]: Endpoint que aceita requisições GET para que seja possível consumir dados acerca do sensor que mede temperatura.
+		[{
+    "data": 07/09/2000,
+     "horario": 14:30,
+  		    “temperatura”: 22
+}]</p>
+<p>/umidade [GET]:  Endpoint que aceita requisições GET para que seja possível consumir dados acerca do sensor que mede umidade.
+		[{
+    "data": 07/09/2000,
+     "horario": 14:30,
+  		    “umidade”: 59
+}]</p>
+<p>luminosidade [GET]:  Endpoint que aceita requisições GET para que seja possível consumir dados acerca do sensor que mede luminosidade.
+		[{
+    "data": 07/09/2000,
+     "horário": 14:30,
+  		    “luminosidade”: 60
+}]</p>
+<p>/pressao [GET]:  Endpoint que aceita requisições GET para que seja possível consumir dados acerca do sensor que mede pressão.
+		[{
+    "data": 07/09/2000,
+     "horario": 14:30,
+  		    “pressao”: 1
+}]</p>
+
+	
+</div>
+	
+<div id="Front">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="MakeFille">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="SRestAPI">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="Vue">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+	
+<div id="conclusao">
+	<h1>SBC</h1>
+	<p>
+	</p>
+</div>
+
+
 	
 <div id="conclusao">
 	<h1>Conclusão</h1>
