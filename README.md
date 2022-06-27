@@ -72,14 +72,14 @@ Neste sentido, uma empresa contratou uma equipe de engenheiros da computação e
 
 <div id"DHT11">
 	<h1>Sensor DHT11</h1>
-	<p>O sensor DHT11 é um sensor assíncrono onde a diferença de 0 e 1 no dado enviado é obtido pelo tempo que o sinal fica em alta, 0 caso o sinal fique em alta por 28ns e 1 caso o sinal fique em alta por 70ns. Para a sua medição foi utilizado como base um código do GitHub (https://github.com/Microcontrolandos/DHT11) o qual recebe dois ponteiros para arrays de caracteres, para cada caractere representa um byte, adicionando neles os valores lido e retornando se a leitura foi feita com sucesso, caso contrário informando o erro gerado.</p>
+	<p>O sensor DHT11 é um sensor assíncrono onde a diferença de 0 e 1 no dado enviado é obtido pelo tempo que o sinal fica em alta, 0 caso o sinal fique em alta por 28ns e 1 caso o sinal fique em alta por 70ns. Para a sua medição foi utilizado como base um código do <a href="https://github.com/Microcontrolandos/DHT11">GitHub.</a> o qual recebe dois ponteiros para arrays de caracteres, para cada caractere representa um byte, adicionando neles os valores lido e retornando se a leitura foi feita com sucesso, caso contrário informando o erro gerado.</p>
 <p>Com o intuito de se encaixar com o nosso programa, o código base sofreu algumas alterações simples para se encaixar na biblioteca wiringPi, a primeira foi utilizar as funções da própria biblioteca para o gerenciamento das GPIOs e a segunda foi a adição de um novo parâmetro na chamada da função que indica em qual GPIO está conectado o sensor.</p>
 <p>No código principal a leitura da umidade e temperatura é feita pela pela função readDHT11() que lê o sensor e escreve a parte inteira dos valores lidos em uma variável global newMeasure, caso o sensor dê algum erro o valor escrito será -1 independente do erro dado.</p>
 </div>
 
 <div id="Potenciomentro">
 	<h1>Potenciômetros</h1>
-	<p>Os potenciómetros foram utilizados como simuladores de sensores de pressão e luminosidade já que os mesmo normalmente são sensores analogicos. A SBC utilizada não contém uma porta analógica já implementada, por conta disso é utilizado um componente externo que faz essa leitura, no caso um ADS1115. Para a leitura desse componente é usado como base um código do GitHub (https://github.com/giobauermeister/ads1115-linux-rpi) que entende a conversão analogica I2C e retorna o valor dado. Para esse código, diferente do da leitura do DHT11, não foram feitas alterações significativas para a sua utilização.</p>
+	<p>Os potenciómetros foram utilizados como simuladores de sensores de pressão e luminosidade já que os mesmo normalmente são sensores analogicos. A SBC utilizada não contém uma porta analógica já implementada, por conta disso é utilizado um componente externo que faz essa leitura, no caso um ADS1115. Para a leitura desse componente é usado como base um código do <a href="https://github.com/giobauermeister/ads1115-linux-rpi">GitHub.</a>  que entende a conversão analogica I2C e retorna o valor dado. Para esse código, diferente do da leitura do DHT11, não foram feitas alterações significativas para a sua utilização.</p>
 </div>
 	
 <div id="Broker">
