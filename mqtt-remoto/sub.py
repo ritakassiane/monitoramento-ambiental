@@ -32,6 +32,21 @@ def tratar_temperatura(msg):
     }
     return json.dumps(temperatura)
 
+# Funcao que recebe a string do topico geral do broker e trata ela da forma adequada 
+# para o modelo json utilizado    
+def convert(msg):
+    msgConvert = msg.split(';')
+    msgDict = {
+        'data': msgConvert[0],
+        'horario': msgConvert[1],
+        'temperatura': msgConvert[3][1:3],
+        'umidade': msgConvert[2][1:3],
+        'pressao': msgConvert[4],
+        'luminosidade': msgConvert[5]
+    }
+
+    msgjson = json.dumps(msgDict)
+    return msgjson
 
 # Função utilizada para realizar POST na rota /enviar-temperatura da API
 # Essa funcao recebe a mensagem sem tratamento, e dentro dela faz a chamada ao metodo que realiza a adequação e realiza o post
@@ -65,6 +80,8 @@ def connect_mqtt() -> mqtt_client:
 def subscribe(client: mqtt_client):
     def on_message0(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        mensagem = msg.payload.decode()
+        enviarDado(mensagem)
 
     client.subscribe(topic0)
     client.on_message = on_message0
@@ -74,21 +91,6 @@ def subscribe(client: mqtt_client):
 
     client.subscribe(topic1)
     client.on_message = on_message1
-
-    def on_message2(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-
-    client.subscribe(topic2)
-    client.on_message = on_message2
-
-    def on_message3(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        mensagem = msg.payload.decode()
-        enviarDado(mensagem)
-
-    client.subscribe(topic3)
-    client.on_message = on_message3
-
 
 def run():
     client = connect_mqtt()
