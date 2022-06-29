@@ -8,10 +8,9 @@ from paho.mqtt import client as mqtt_client
 url = 'http://127.0.0.1:5000/enviar-temperatura'
 broker = '10.0.0.101'
 port = 1883
-topic0 = "mqtt/umidade"
-topic1 = "mqtt/temp"
-topic2 = "mqtt/lumi"
-topic3 = "mqtt/press"
+topic0 = "mqtt/dados"
+topic1 = "mqtt/tempo"
+
 
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
@@ -35,7 +34,7 @@ def tratar_temperatura(msg):
 
 
 # Função utilizada para realizar POST na rota /enviar-temperatura da API
-# Essa fun~]ao recebe a mensagem sem tratamento, e dentro dela faz a chamada ao metodo que realiza a adequação e realiza o post
+# Essa funcao recebe a mensagem sem tratamento, e dentro dela faz a chamada ao metodo que realiza a adequação e realiza o post
 def enviarDado(data):
     temperatura = tratar_temperatura(data)
     r = requests.post(url, json=temperatura)
