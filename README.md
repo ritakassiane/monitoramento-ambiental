@@ -209,7 +209,7 @@ Posteriormente, execute o arquivo api.py localizado no diretório /MQTT_Remoto/a
 </div>
 	
 <div id="Subindo a aplicação Vue.js">
-	<h1>SBC</h1>
+	<h1>Interface Remota</h1>
 	<p>Abra um terminal dentro do diretório principal do projeto Vue, e utilizando o gerenciador de pacotes npm, execute o seguinte comando para instalar as dependências e rodar localmente, respectivamente:
 	<h5 align="center">npm install</h5>
 	<h5 align="center">npm run serve</h5>
