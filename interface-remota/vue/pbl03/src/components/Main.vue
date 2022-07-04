@@ -23,22 +23,27 @@
               <p>Umidade</p>
             </div>
             <div>
-              <strong>52.99</strong>
+              <strong>{{ luminosidade }}</strong>
               <p>Luminosidade</p>
+            </div>
+            <div>
+              <strong>{{ luminosidade }}</strong>
+              <p>Pressão</p>
             </div>
           </div>
         </header>
         <div class="category">
             <ul>
-                <li><a href="#!" class="active">Tempo</a></li>
-                <li><a href="#!">Histórico</a></li>
+                <li><router-link to="/Time" custom ><a class="active">Tempo</a></router-link></li>
+                <li><router-link to="/Sensors" custom ><a>Histórico</a></router-link></li>
             </ul>
         </div>
+
       <Time />
     </div>
 </template>
 <script>
-import Time from './Time'
+import Time from './Time.vue'
 import api from '../services/api';
 
 export default {
@@ -49,21 +54,29 @@ export default {
     data(){
       return{
         temperatura: "-",
-        umidade: "-"
+        umidade: "-",
+        luminosidade: "-"
       }
     },
     mounted(){
-      api.get('/temp').then(response => {
+      api.get('/temperatura').then(response => {
         const array = response.data
-        const lastElement = (array.length)-1
-        this.temperatura = response.data[lastElement].temperatura
+        var lastElement = (array.length)-1
+        this.temperatura = array[lastElement].temperatura
         console.log(this.temperatura)
+        console.log(lastElement)
       }),
-      api.get('/umid').then(response_umid => {
+      api.get('/umidade').then(response_umid => {
         const umid = response_umid.data
         const lastElement = (umid.length)-1
         this.umidade = umid[lastElement].umidade
         console.log(this.umidade)
+      }),
+      api.get('/luminosidade').then(response => {
+        const lumin = response.data   
+        const lastElement = (lumin.length)-1
+        this.luminosidade = lumin[lastElement].luminosidade
+        console.log(this.luminosidade)
       })
     }
 }
@@ -105,6 +118,9 @@ export default {
   .category {
     display: flex;
     justify-content: center;
+  }
+  .f p{
+    font-size: 12px;
   }
 
 </style>

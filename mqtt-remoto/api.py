@@ -10,6 +10,8 @@ CORS(app)
 app.config["DEBUG"] = True
 
 allData = []
+history = [[], [], [], []] #Temperatura, pressao, umidade
+global time 
 
 # A função a seguir recebe um dicionario, e parametros equivalentes à quais chaves devem ser excluidas
 # Retorna um novo dicionario excluindo as chaves passadas pelo parametro
@@ -28,13 +30,23 @@ def sensor_filter(lista, chave1, chave2, chave3):
 def data():
     print(request.json)
     allData.append(request.json)
+    history[0].append(without_keys(request.json,'luminosidade', 'pressao', 'umidade')) #temperatura
+    history[1].append(without_keys(request.json,'luminosidade', 'pressao', 'temperatura')) #umidade
+    history[2].append(without_keys(request.json,'umidade', 'pressao', 'temperatura')) #luminosidade
+    history[3].append(without_keys(request.json,'umidade', 'luminosidade', 'temperatura')) #pressao
     print(f'dado:{allData}')
     return  jsonify(allData)
+
+@app.route('/send-time', methods=['POST'])
+def postTime():
+    print(request.json)
+    time = request.json
+    return jsonify(time)
 
 
 @app.route('/', methods=['GET'])
 def getData():
-    return  jsonify(allData)
+    return  jsonify(history)
 
 @app.route('/temperatura', methods=['GET'])
 def getTemp():

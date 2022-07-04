@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <Main/>
+    <History/>
 
   </div>
 </template>
 
 <script>
 import './styles/global.css';
-import Main from './components/Main';
+import History from './views/History';
 
 
 
 export default {
   name: 'App',
   components: {
-    Main
+    History
   }
 }
 </script>

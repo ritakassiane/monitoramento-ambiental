@@ -1,8 +1,8 @@
 <template>
-    <form action="#">
+    <form v-on:submit.prevent="submitForm">
         <div class="time">
             <div class="input">
-                <input type="number" placeholder="Tempo de leitura" id="time" min="1" max="50">
+                <input type="number" ref="myForm" placeholder="Tempo de leitura" id="time" min="1" max="50">
             </div>
             <div>
                 <input type="submit" value="ENVIAR" id="enviar">
@@ -11,7 +11,28 @@
     </form> 
 </template>
 <script>
+import api from '../services/api';
+
 export default {
+    name: 'SetTime',
+    data(){
+        return{
+            form: {
+                time: 1
+            }
+        }
+    },
+    methods:{
+        submitForm(){
+            console.log(this.$refs.myForm.value)
+            this.form.time = this.$refs.myForm.value
+            console.log(this.form)
+            api.post('/send-time', this.form).then((res) => {
+                console.log("Resposta da API")
+                console.log(res)
+            })
+        }
+    }
     
 }
 </script>
@@ -23,6 +44,7 @@ export default {
         align-items: center;
         flex-direction: column;
         width: 100%;
+        height: 150px;
         margin: 30px auto;
     }
     #time {
