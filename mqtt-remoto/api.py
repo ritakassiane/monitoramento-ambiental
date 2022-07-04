@@ -30,10 +30,10 @@ def sensor_filter(lista, chave1, chave2, chave3):
 def data():
     print(request.json)
     allData.append(request.json)
-    history[0].append(without_keys(request.json,'luminosidade', 'pressao', 'umidade')) #temperatura
-    history[1].append(without_keys(request.json,'luminosidade', 'pressao', 'temperatura')) #umidade
-    history[2].append(without_keys(request.json,'umidade', 'pressao', 'temperatura')) #luminosidade
-    history[3].append(without_keys(request.json,'umidade', 'luminosidade', 'temperatura')) #pressao
+    # history[0].append(without_keys(request.json,'luminosidade', 'pressao', 'umidade')) #temperatura
+    # history[1].append(without_keys(request.json,'luminosidade', 'pressao', 'temperatura')) #umidade
+    # history[2].append(without_keys(request.json,'umidade', 'pressao', 'temperatura')) #luminosidade
+    # history[3].append(without_keys(request.json,'umidade', 'luminosidade', 'temperatura')) #pressao
     print(f'dado:{allData}')
     return  jsonify(allData)
 
@@ -50,6 +50,7 @@ def getData():
 
 @app.route('/temperatura', methods=['GET'])
 def getTemp():
+    print(allData)
     if len(allData) != 0:
         temp = sensor_filter(allData, 'luminosidade', 'pressao', 'umidade')
     else: 

@@ -5,11 +5,11 @@ import random
 
 from paho.mqtt import client as mqtt_client
 
-url = 'http://127.0.0.1:5000/enviar-temperatura'
+url = 'http://127.0.0.1:5000/send-data'
 broker = '10.0.0.101'
 port = 1883
-topic0 = "mqtt/dados"
-topic1 = "mqtt/tempo"
+topic0 = "measuresSBC"
+topic1 = "Timer"
 
 
 # generate client ID with pub prefix randomly
@@ -37,12 +37,12 @@ def tratar_temperatura(msg):
 def convert(msg):
     msgConvert = msg.split(';')
     msgDict = {
-        'data': msgConvert[0],
-        'horario': msgConvert[1],
-        'temperatura': msgConvert[3][1:3],
-        'umidade': msgConvert[2][1:3],
-        'pressao': msgConvert[4],
-        'luminosidade': msgConvert[5]
+        "data": msgConvert[0],
+        "horario": msgConvert[1],
+        "temperatura": msgConvert[3][1:3],
+        "umidade": msgConvert[2][1:3],
+        "pressao": msgConvert[4],
+        "luminosidade": msgConvert[5]
     }
 
     msgjson = json.dumps(msgDict)
@@ -51,15 +51,15 @@ def convert(msg):
 # Função utilizada para realizar POST na rota /enviar-temperatura da API
 # Essa funcao recebe a mensagem sem tratamento, e dentro dela faz a chamada ao metodo que realiza a adequação e realiza o post
 def enviarDado(data):
-    temperatura = tratar_temperatura(data)
+    temperatura = convert(data)
     r = requests.post(url, json=temperatura)
-    print(r.json())
-    if 'errors' not in (r.json()):
-        print('Temperatura enviada com sucesso!')
-        return r.json, r.status_code
-    else:
-        print('Shiiiii rapaz..')
-        return 'err', r.status_code
+    print(r)
+    # if 'errors' not in (r.json()):
+    #     print('Temperatura enviada com sucesso!')
+    #     return r.json, r.status_code
+    # else:
+    #     print('Shiiiii rapaz..')
+    #     return 'err', r.status_code
 
 ##################################
 
@@ -81,6 +81,7 @@ def subscribe(client: mqtt_client):
     def on_message0(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         mensagem = msg.payload.decode()
+        print("Vai enviar agora!")
         enviarDado(mensagem)
 
     client.subscribe(topic0)
@@ -88,6 +89,10 @@ def subscribe(client: mqtt_client):
 
     def on_message1(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        mensagem = msg.payload.decode()
+        enviarDado(mensagem)
+
+        
 
     client.subscribe(topic1)
     client.on_message = on_message1

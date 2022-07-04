@@ -33,10 +33,10 @@
           </div>
         </header>
         <div class="category">
-            <ul>
+            <!-- <ul>
                 <li><router-link to="/Time" custom ><a class="active">Tempo</a></router-link></li>
                 <li><router-link to="/Sensors" custom ><a>Histórico</a></router-link></li>
-            </ul>
+            </ul> -->
         </div>
 
       <Time />
@@ -59,20 +59,45 @@ export default {
       }
     },
     mounted(){
-      api.get('/temperatura').then(response => {
+      api.get('/temperatura', {
+   headers: {
+          // remove headers
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err.response);
+      }).then(response => {
+        console.log("Entrou aqui")
         const array = response.data
         var lastElement = (array.length)-1
         this.temperatura = array[lastElement].temperatura
         console.log(this.temperatura)
         console.log(lastElement)
       }),
-      api.get('/umidade').then(response_umid => {
+      api.get('/umidade', {
+   headers: {
+          // remove headers
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err.response);
+      }).then(response_umid => {
         const umid = response_umid.data
         const lastElement = (umid.length)-1
         this.umidade = umid[lastElement].umidade
         console.log(this.umidade)
       }),
-      api.get('/luminosidade').then(response => {
+      api.get('/luminosidade', {
+   headers: {
+          // remove headers
+        }
+      }).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err.response);
+      }).then(response => {
         const lumin = response.data   
         const lastElement = (lumin.length)-1
         this.luminosidade = lumin[lastElement].luminosidade

@@ -8,7 +8,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = '10.0.0.101'
 port = 1883
-topic = "mqtt/lumi"
+topic = "Timer"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 username = 'aluno'

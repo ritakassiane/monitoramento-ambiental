@@ -158,7 +158,7 @@ export default {
                 // alert(obj)
             }
             // this.history = newList;
-            alert(newList)
+            alert(JSON.stringify(newList))
 
         }
     }
